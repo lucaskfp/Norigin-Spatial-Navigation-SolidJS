@@ -100,7 +100,7 @@ const MenuItemBox = styled.div<MenuItemBoxProps>`
 `;
 
 function MenuItem() {
-  const { ref, focused } = useFocusable();
+  const { ref, focused } = useFocusable<object, HTMLDivElement>();
 
   return <MenuItemBox ref={ref} focused={focused} />;
 }
@@ -142,7 +142,7 @@ function Menu({ focusKey: focusKeyParam }: MenuProps) {
     // resume, -- to resume all navigation events
     // updateAllLayouts, -- to force update all layouts when needed
     // getCurrentFocusKey -- to get the current focus key
-  } = useFocusable({
+  } = useFocusable<object, HTMLDivElement>({
     focusable: true,
     saveLastFocusedChild: false,
     trackChildren: true,
@@ -231,7 +231,7 @@ function Asset({
   isShuffleSize,
   index
 }: AssetProps) {
-  const { ref, focused } = useFocusable({
+  const { ref, focused } = useFocusable<object, HTMLDivElement>({
     onEnterPress,
     onFocus,
     extraProps: {
@@ -296,7 +296,7 @@ function ContentRow({
   onFocus,
   isShuffleSize
 }: ContentRowProps) {
-  const { ref, focusKey } = useFocusable({
+  const { ref, focusKey } = useFocusable<object, HTMLDivElement>({
     onFocus
   });
 
@@ -424,7 +424,7 @@ const DIRECTION_RIGHT = 'right';
 function ProgressBar() {
   const [percent, setPercent] = useState(defaultPercent);
   const timerRef = useRef<NodeJS.Timer | null>(null);
-  const { ref, focused } = useFocusable({
+  const { ref, focused } = useFocusable<object, HTMLDivElement>({
     onArrowPress: (direction: string) => {
       if (direction === DIRECTION_RIGHT && timerRef.current === null) {
         timerRef.current = setInterval(() => {
@@ -465,7 +465,7 @@ function ProgressBar() {
 }
 
 function Content() {
-  const { ref, focusKey } = useFocusable();
+  const { ref, focusKey } = useFocusable<object, HTMLDivElement>();
 
   const [selectedAsset, setSelectedAsset] = useState(null);
 

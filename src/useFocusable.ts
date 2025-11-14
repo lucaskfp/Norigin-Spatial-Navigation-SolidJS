@@ -66,15 +66,15 @@ export interface UseFocusableConfig<P = object> {
   extraProps?: P;
 }
 
-export interface UseFocusableResult {
-  ref: RefObject<any>; // <any> since we don't know which HTML tag is passed here
+export interface UseFocusableResult<E extends HTMLElement = any> {
+  ref: RefObject<E>;
   focusSelf: (focusDetails?: FocusDetails) => void;
   focused: boolean;
   hasFocusedChild: boolean;
   focusKey: string;
 }
 
-const useFocusableHook = <P>({
+const useFocusableHook = <P, E extends HTMLElement = any>({
   focusable = true,
   saveLastFocusedChild = true,
   trackChildren = false,
@@ -91,7 +91,7 @@ const useFocusableHook = <P>({
   onFocus = noop,
   onBlur = noop,
   extraProps
-}: UseFocusableConfig<P> = {}): UseFocusableResult => {
+}: UseFocusableConfig<P> = {}): UseFocusableResult<E> => {
   const onEnterPressHandler = useCallback(
     (details: KeyPressDetails) => {
       onEnterPress(extraProps, details);
@@ -127,7 +127,7 @@ const useFocusableHook = <P>({
     [extraProps, onBlur]
   );
 
-  const ref = useRef(null);
+  const ref = useRef<E>(null);
 
   const [focused, setFocused] = useState(false);
   const [hasFocusedChild, setHasFocusedChild] = useState(false);
