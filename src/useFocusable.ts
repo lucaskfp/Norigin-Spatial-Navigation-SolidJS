@@ -66,7 +66,7 @@ export interface UseFocusableConfig<P = object> {
   extraProps?: P;
 }
 
-export interface UseFocusableResult<E extends HTMLElement = any> {
+export interface UseFocusableResult<E = any> {
   ref: RefObject<E>;
   focusSelf: (focusDetails?: FocusDetails) => void;
   focused: boolean;
@@ -74,7 +74,7 @@ export interface UseFocusableResult<E extends HTMLElement = any> {
   focusKey: string;
 }
 
-const useFocusableHook = <P, E extends HTMLElement = any>({
+const useFocusableHook = <P, E = any>({
   focusable = true,
   saveLastFocusedChild = true,
   trackChildren = false,
