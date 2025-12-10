@@ -150,7 +150,7 @@ const useFocusableHook = <P, E = any>({
   );
 
   useEffect(() => {
-    const node = ref.current;
+    const node: any = ref.current;
 
     SpatialNavigation.addFocusable({
       focusKey,
@@ -183,7 +183,7 @@ const useFocusableHook = <P, E = any>({
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    const node = ref.current;
+    const node: any = ref.current;
 
     SpatialNavigation.updateFocusable(focusKey, {
       node,
