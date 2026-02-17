@@ -16,7 +16,7 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.jsx']
   },
-  externals: ['solid-js', /^lodash(\/.+)?$/],
+  externals: ['solid-js'],
   output: {
     filename: 'index.js',
     path: path.resolve(__dirname, 'dist'),

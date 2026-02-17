@@ -1,6 +1,5 @@
 import { createSignal, onCleanup, createEffect } from 'solid-js';
-import noop from 'lodash/noop';
-import uniqueId from 'lodash/uniqueId';
+import { uniqueId } from './helpers';
 import {
   SpatialNavigation,
   FocusableComponentLayout,
@@ -9,6 +8,8 @@ import {
   Direction,
 } from './SpatialNavigation';
 import { useFocusContext } from './useFocusContext';
+
+const noop = (() => {}) as (...args: any[]) => any;
 
 export type EnterPressHandler<P = object> = (
   props: P,
@@ -83,12 +84,12 @@ export function createFocusable<P = object, E extends HTMLElement = HTMLElement>
     focusBoundaryDirections,
     focusKey: propFocusKey,
     preferredChildFocusKey,
-    onEnterPress = noop,
-    onEnterRelease = noop,
-    onArrowPress = () => true,
-    onArrowRelease = noop,
-    onFocus = noop,
-    onBlur = noop,
+    onEnterPress = noop as EnterPressHandler<P>,
+    onEnterRelease = noop as EnterReleaseHandler<P>,
+    onArrowPress = (() => true) as ArrowPressHandler<P>,
+    onArrowRelease = noop as ArrowReleaseHandler<P>,
+    onFocus = noop as FocusHandler<P>,
+    onBlur = noop as BlurHandler<P>,
     extraProps,
   } = config;
 
