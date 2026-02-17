@@ -1,11 +1,4 @@
-import {
-  RefObject,
-  useCallback,
-  useMemo,
-  useRef,
-  useEffect,
-  useState
-} from 'react';
+import { createSignal, onCleanup, createEffect } from 'solid-js';
 import noop from 'lodash/noop';
 import uniqueId from 'lodash/uniqueId';
 import {
@@ -13,7 +6,7 @@ import {
   FocusableComponentLayout,
   FocusDetails,
   KeyPressDetails,
-  Direction
+  Direction,
 } from './SpatialNavigation';
 import { useFocusContext } from './useFocusContext';
 
@@ -32,7 +25,7 @@ export type ArrowPressHandler<P = object> = (
 
 export type ArrowReleaseHandler<P = object> = (
   direction: string,
-  props: P,
+  props: P
 ) => void;
 
 export type FocusHandler<P = object> = (
@@ -66,95 +59,82 @@ export interface UseFocusableConfig<P = object> {
   extraProps?: P;
 }
 
-export interface UseFocusableResult<E = any> {
-  ref: RefObject<E>;
+export interface UseFocusableResult<E = HTMLElement> {
+  /** Callback ref: assign to ref attribute, e.g. ref={result.ref} */
+  ref: (el: E | undefined) => void;
   focusSelf: (focusDetails?: FocusDetails) => void;
-  focused: boolean;
-  hasFocusedChild: boolean;
+  /** Reactive accessor: call as focused() to read */
+  focused: () => boolean;
+  /** Reactive accessor: call as hasFocusedChild() to read */
+  hasFocusedChild: () => boolean;
   focusKey: string;
 }
 
-const useFocusableHook = <P, E = any>({
-  focusable = true,
-  saveLastFocusedChild = true,
-  trackChildren = false,
-  autoRestoreFocus = true,
-  forceFocus = false,
-  isFocusBoundary = false,
-  focusBoundaryDirections,
-  focusKey: propFocusKey,
-  preferredChildFocusKey,
-  onEnterPress = noop,
-  onEnterRelease = noop,
-  onArrowPress = () => true,
-  onArrowRelease = noop,
-  onFocus = noop,
-  onBlur = noop,
-  extraProps
-}: UseFocusableConfig<P> = {}): UseFocusableResult<E> => {
-  const onEnterPressHandler = useCallback(
-    (details: KeyPressDetails) => {
-      onEnterPress(extraProps, details);
-    },
-    [onEnterPress, extraProps]
-  );
-
-  const onEnterReleaseHandler = useCallback(() => {
-    onEnterRelease(extraProps);
-  }, [onEnterRelease, extraProps]);
-
-  const onArrowPressHandler = useCallback(
-    (direction: string, details: KeyPressDetails) =>
-      onArrowPress(direction, extraProps, details),
-    [extraProps, onArrowPress]
-  );
-
-  const onArrowReleaseHandler = useCallback((direction: string) => {
-    onArrowRelease(direction, extraProps);
-  }, [onArrowRelease, extraProps])
-
-  const onFocusHandler = useCallback(
-    (layout: FocusableComponentLayout, details: FocusDetails) => {
-      onFocus(layout, extraProps, details);
-    },
-    [extraProps, onFocus]
-  );
-
-  const onBlurHandler = useCallback(
-    (layout: FocusableComponentLayout, details: FocusDetails) => {
-      onBlur(layout, extraProps, details);
-    },
-    [extraProps, onBlur]
-  );
-
-  const ref = useRef<E>(null);
-
-  const [focused, setFocused] = useState(false);
-  const [hasFocusedChild, setHasFocusedChild] = useState(false);
+export function createFocusable<P = object, E extends HTMLElement = HTMLElement>(
+  config: UseFocusableConfig<P> = {}
+): UseFocusableResult<E> {
+  const {
+    focusable = true,
+    saveLastFocusedChild = true,
+    trackChildren = false,
+    autoRestoreFocus = true,
+    forceFocus = false,
+    isFocusBoundary = false,
+    focusBoundaryDirections,
+    focusKey: propFocusKey,
+    preferredChildFocusKey,
+    onEnterPress = noop,
+    onEnterRelease = noop,
+    onArrowPress = () => true,
+    onArrowRelease = noop,
+    onFocus = noop,
+    onBlur = noop,
+    extraProps,
+  } = config;
 
   const parentFocusKey = useFocusContext();
+  const generatedKey = uniqueId('sn:focusable-item-');
+  const focusKey = propFocusKey ?? generatedKey;
 
-  /**
-   * Either using the propFocusKey passed in, or generating a random one
-   */
-  const focusKey = useMemo(
-    () => propFocusKey || uniqueId('sn:focusable-item-'),
-    [propFocusKey]
-  );
+  const [nodeSignal, setNode] = createSignal<E | undefined>(undefined);
+  const [focused, setFocused] = createSignal(false);
+  const [hasFocusedChild, setHasFocusedChild] = createSignal(false);
 
-  const focusSelf = useCallback(
-    (focusDetails: FocusDetails = {}) => {
-      SpatialNavigation.setFocus(focusKey, focusDetails);
-    },
-    [focusKey]
-  );
+  const onEnterPressHandler = (details: KeyPressDetails) => {
+    onEnterPress(extraProps as P, details);
+  };
+  const onEnterReleaseHandler = () => {
+    onEnterRelease(extraProps as P);
+  };
+  const onArrowPressHandler = (direction: string, details: KeyPressDetails) =>
+    onArrowPress(direction, extraProps as P, details);
+  const onArrowReleaseHandler = (direction: string) => {
+    onArrowRelease(direction, extraProps as P);
+  };
+  const onFocusHandler = (
+    layout: FocusableComponentLayout,
+    details: FocusDetails
+  ) => {
+    onFocus(layout, extraProps as P, details);
+  };
+  const onBlurHandler = (
+    layout: FocusableComponentLayout,
+    details: FocusDetails
+  ) => {
+    onBlur(layout, extraProps as P, details);
+  };
 
-  useEffect(() => {
-    const node: any = ref.current;
+  const focusSelf = (focusDetails: FocusDetails = {}) => {
+    SpatialNavigation.setFocus(focusKey, focusDetails);
+  };
+
+  createEffect(() => {
+    const node = nodeSignal();
+    if (!node) return;
 
     SpatialNavigation.addFocusable({
       focusKey,
-      node,
+      node: node as unknown as HTMLElement,
       parentFocusKey,
       preferredChildFocusKey,
       onEnterPress: onEnterPressHandler,
@@ -172,21 +152,20 @@ const useFocusableHook = <P, E = any>({
       focusBoundaryDirections,
       autoRestoreFocus,
       forceFocus,
-      focusable
+      focusable,
     });
 
-    return () => {
-      SpatialNavigation.removeFocusable({
-        focusKey
-      });
-    };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    onCleanup(() => {
+      SpatialNavigation.removeFocusable({ focusKey });
+    });
+  });
 
-  useEffect(() => {
-    const node: any = ref.current;
+  createEffect(() => {
+    const node = nodeSignal();
+    if (!node) return;
 
     SpatialNavigation.updateFocusable(focusKey, {
-      node,
+      node: node as unknown as HTMLElement,
       preferredChildFocusKey,
       focusable,
       isFocusBoundary,
@@ -196,29 +175,22 @@ const useFocusableHook = <P, E = any>({
       onArrowPress: onArrowPressHandler,
       onArrowRelease: onArrowReleaseHandler,
       onFocus: onFocusHandler,
-      onBlur: onBlurHandler
+      onBlur: onBlurHandler,
     });
-  }, [
-    focusKey,
-    preferredChildFocusKey,
-    focusable,
-    isFocusBoundary,
-    focusBoundaryDirections,
-    onEnterPressHandler,
-    onEnterReleaseHandler,
-    onArrowPressHandler,
-    onArrowReleaseHandler,
-    onFocusHandler,
-    onBlurHandler
-  ]);
+  });
+
+  const setRef = (el: E | undefined) => {
+    setNode(() => el);
+  };
 
   return {
-    ref,
+    ref: setRef,
     focusSelf,
     focused,
     hasFocusedChild,
-    focusKey // returns either the same focusKey as passed in, or generated one
+    focusKey,
   };
-};
+}
 
-export const useFocusable = useFocusableHook;
+/** @deprecated Use createFocusable. Alias for backwards compatibility. */
+export const useFocusable = createFocusable;

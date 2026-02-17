@@ -1,49 +1,94 @@
-# Norigin Spatial Navigation
-Norigin Spatial Navigation is an open-source library that enables navigating between focusable elements built with [ReactJS](https://reactjs.org/) based application software.
-To be used while developing applications that require key navigation (directional navigation) on Web-browser Apps and other Browser based Smart TVs and Connected TVs.
-Our goal is to make navigation on websites & apps easy, using React Javascript Framework and React Hooks.
-Navigation can be controlled by your keyboard (browsers) or Remote Controls (Smart TV or Connected TV).
-Software developers only need to initialise the service, add the Hook to components that are meant to be focusable and set the initial focus.
-The Spatial Navigation library will automatically determine which components to focus next while navigating with the directional keys. We keep the library light, simple, and with minimal third-party dependencies.
+# Norigin Spatial Navigation (SolidJS)
+
+Norigin Spatial Navigation is an open-source library that enables navigating between focusable elements in [SolidJS](https://www.solidjs.com/) applications. It is intended for apps that require directional (key) navigation on web browsers and browser-based Smart TVs and Connected TVs.
+
+Navigation can be controlled by keyboard (browsers) or remote controls (Smart TV / Connected TV). Initialize the service, use `createFocusable` on components that should be focusable, provide focus context where needed, and set the initial focus. The library will determine the next focusable component when using arrow keys.
 
 [![npm version](https://badge.fury.io/js/%40noriginmedia%2Fnorigin-spatial-navigation.svg)](https://badge.fury.io/js/%40noriginmedia%2Fnorigin-spatial-navigation)
 
-# Illustrative Demo
-Norigin Spatial Navigation can be used while working with Key Navigation and React JS.
-This library allows you to navigate across or focus on all navigable components while browsing.
-For example: hyperlinks, buttons, menu items or any interactible part of the User Interface according to the spatial location on the screen.
+## Installation
 
-![Example](/readme-assets/norigin-spatial-navigation/norigin-spatial-navigation.gif)
+```bash
+npm install @noriginmedia/norigin-spatial-navigation solid-js
+```
 
-[Example Source](https://github.com/NoriginMedia/Norigin-Spatial-Navigation/blob/master/src/App.tsx)
+## Basic usage
 
-# Supported Devices
-The Norigin Spatial Navigation library is theoretically intended to work on any web-based platform such as Browsers and Smart TVs.
-For as long as the UI/UX is built with the React Framework, it works on the Samsung Tizen TVs, LG WebOS TVs, Hisense Vidaa TVs and a range of other Connected TVs.
-It can also be used in React Native apps on Android TV and Apple TV, however functionality will be limited.
-This library is actively used and continuously tested on many devices and updated periodically in the table below:
+1. **Initialize** spatial navigation (e.g. in your app root):
 
-| Platform | Name |
-|---|---|
-| Web Browsers | Chrome, Firefox, etc. |
-| Smart TVs | [Samsung Tizen](https://developer.tizen.org/?langswitch=en), [LG WebOS](https://webostv.developer.lge.com/), Hisense |
-| Other Connected TV devices | Browser Based settop boxes with Chromium, Ekioh or Webkit browsers |
-| AndroidTV, AppleTV | Only [React Native](https://reactnative.dev/docs/building-for-tv) apps, limited functionality |
+```ts
+import { init } from '@noriginmedia/norigin-spatial-navigation';
 
-<!-- INSERT_DETAILED_README_SPATNAV_HERE -->
+init();
+```
 
-# Developer Portal
-For more detailed documentation and usage examples, visit our [Developer Portal](https://devportal.noriginmedia.com/docs/Norigin-Spatial-Navigation/)
+2. **Provide focus context** for focusable trees. Use `FocusContext.Provider` with the container’s `focusKey` so children resolve their parent correctly:
 
-# Related Blogs
-1. Use & benefits of using the Norigin Spatial Navigation library on Smart TVs [here](https://medium.com/p/77ed944d7be7).
+```tsx
+import { FocusContext, createFocusable } from '@noriginmedia/norigin-spatial-navigation';
 
-# Changelog
-A list of changes for all the versions for the Norigin Spatial Navigation:
-[CHANGELOG.md](https://github.com/NoriginMedia/Norigin-Spatial-Navigation/blob/master/CHANGELOG.md)
+function FocusableSection() {
+  const { ref, focusKey, focused } = createFocusable();
 
-# Contributing
-Please follow the [Contribution Guide](https://github.com/NoriginMedia/Norigin-Spatial-Navigation/blob/master/CONTRIBUTING.md)
+  return (
+    <FocusContext.Provider value={focusKey}>
+      <div ref={ref} classList={{ focused: focused() }}>
+        {/* focusable content */}
+      </div>
+    </FocusContext.Provider>
+  );
+}
+```
 
-# License
+3. **Make elements focusable** with `createFocusable` and attach the returned `ref`:
+
+```tsx
+function FocusableButton() {
+  const { ref, focusSelf, focused } = createFocusable({
+    onEnterPress: () => { /* handle select/click */ },
+  });
+
+  return (
+    <button ref={ref} onClick={focusSelf} classList={{ focused: focused() }}>
+      Click me
+    </button>
+  );
+}
+```
+
+- `ref`: callback ref — use `ref={result.ref}` on the DOM element.
+- `focused` / `hasFocusedChild`: Solid accessors — call `focused()` and `hasFocusedChild()` in your template for reactive state.
+- `focusSelf(focusDetails?)`: call to move focus to this element programmatically.
+- `focusKey`: stable key for this focusable (for context and `setFocus`).
+
+4. **Set initial focus** when needed:
+
+```ts
+import { setFocus, ROOT_FOCUS_KEY } from '@noriginmedia/norigin-spatial-navigation';
+
+setFocus(ROOT_FOCUS_KEY); // or a specific focusKey
+```
+
+## Supported platforms
+
+| Platform | Notes |
+|----------|--------|
+| Web browsers | Chrome, Firefox, etc. |
+| Smart TVs | Samsung Tizen, LG WebOS, Hisense |
+| Other Connected TV | Browser-based set-top boxes (Chromium, Ekioh, Webkit) |
+
+## API
+
+- **init(options?)** – initialize the service (debug, throttle, RTL, etc.).
+- **destroy()** – tear down the service.
+- **setFocus(focusKey, focusDetails?)** – set focus to a focus key (e.g. `ROOT_FOCUS_KEY`).
+- **navigateByDirection(direction, focusDetails)** – move focus by `'up' | 'down' | 'left' | 'right'`.
+- **getCurrentFocusKey()**, **pause()**, **resume()**, **updateAllLayouts()**, **setKeyMap()**, **updateRtl()**, **doesFocusableExist()** – see types and SpatialNavigation export.
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md).
+
+## License
+
 **MIT Licensed**

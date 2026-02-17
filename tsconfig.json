@@ -7,15 +7,10 @@
     "module": "commonjs",
     "esModuleInterop": true,
     "target": "ES5",
-    "jsx": "react",
+    "jsx": "preserve",
     "allowSyntheticDefaultImports": true,
-    "lib": [
-      "es5",
-      "es2015",
-      "dom"
-    ]
+    "lib": ["es5", "es2015", "dom"],
+    "skipLibCheck": true
   },
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

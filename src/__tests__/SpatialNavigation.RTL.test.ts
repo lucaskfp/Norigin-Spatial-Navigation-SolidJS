@@ -22,7 +22,6 @@ describe('SpatialNavigation RTL', () => {
   it('should allow horizontal navigation', () => {
     createHorizontalLayout();
 
-    // @ts-ignore
     SpatialNavigation.setFocus(ROOT_FOCUS_KEY);
 
     expect(SpatialNavigation.getCurrentFocusKey()).toBe('child-3');
