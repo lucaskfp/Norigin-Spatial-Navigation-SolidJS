@@ -16,7 +16,7 @@ interface ThrottleOptions {
 export function debounce<T extends (...args: any[]) => any>(
   fn: T,
   wait: number,
-  options: DebounceOptions = {}
+  options: DebounceOptions = {},
 ): DebouncedFunction<T> {
   const { leading = false, trailing = true } = options;
   let timerId: ReturnType<typeof setTimeout> | null = null;
@@ -70,7 +70,7 @@ export function debounce<T extends (...args: any[]) => any>(
 export function throttle<T extends (...args: any[]) => any>(
   fn: T,
   wait: number,
-  options: ThrottleOptions = {}
+  options: ThrottleOptions = {},
 ): DebouncedFunction<T> {
   const { leading = true, trailing = true } = options;
   let timerId: ReturnType<typeof setTimeout> | null = null;
@@ -131,7 +131,7 @@ export function throttle<T extends (...args: any[]) => any>(
 }
 
 let idCounter = 0;
-export function uniqueId(prefix = ''): string {
+export function uniqueId(prefix = ""): string {
   idCounter += 1;
   return `${prefix}${idCounter}`;
 }

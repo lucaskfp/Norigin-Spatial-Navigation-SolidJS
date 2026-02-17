@@ -1,7 +1,7 @@
-import WritingDirection from './WritingDirection';
+import WritingDirection from "./WritingDirection";
 
 // We'll make VisualDebugger no-op for any environments lacking a DOM (e.g. SSR and React Native non-web platforms).
-const hasDOM = typeof window !== 'undefined' && window.document;
+const hasDOM = typeof window !== "undefined" && window.document;
 
 const WIDTH = hasDOM ? window.innerWidth : 0;
 const HEIGHT = hasDOM ? window.innerHeight : 0;
@@ -25,14 +25,14 @@ class VisualDebugger {
   constructor(writingDirection: WritingDirection) {
     if (hasDOM) {
       this.debugCtx = VisualDebugger.createCanvas(
-        'sn-debug',
-        '1010',
-        writingDirection
+        "sn-debug",
+        "1010",
+        writingDirection,
       );
       this.layoutsCtx = VisualDebugger.createCanvas(
-        'sn-layouts',
-        '1000',
-        writingDirection
+        "sn-layouts",
+        "1000",
+        writingDirection,
       );
       this.writingDirection = writingDirection;
     }
@@ -41,23 +41,23 @@ class VisualDebugger {
   static createCanvas(
     id: string,
     zIndex: string,
-    writingDirection: WritingDirection
+    writingDirection: WritingDirection,
   ) {
     const canvas: HTMLCanvasElement =
-      document.querySelector(`#${id}`) || document.createElement('canvas');
+      document.querySelector(`#${id}`) || document.createElement("canvas");
 
-    canvas.setAttribute('id', id);
+    canvas.setAttribute("id", id);
     canvas.setAttribute(
-      'dir',
-      writingDirection === WritingDirection.LTR ? 'ltr' : 'rtl'
+      "dir",
+      writingDirection === WritingDirection.LTR ? "ltr" : "rtl",
     );
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
 
     canvas.style.zIndex = zIndex;
-    canvas.style.position = 'fixed';
-    canvas.style.top = '0';
-    canvas.style.left = '0';
+    canvas.style.position = "fixed";
+    canvas.style.top = "0";
+    canvas.style.left = "0";
 
     document.body.appendChild(canvas);
 
@@ -87,43 +87,43 @@ class VisualDebugger {
     if (!hasDOM) {
       return;
     }
-    this.layoutsCtx.strokeStyle = 'green';
+    this.layoutsCtx.strokeStyle = "green";
     this.layoutsCtx.strokeRect(
       layout.left,
       layout.top,
       layout.width,
-      layout.height
+      layout.height,
     );
-    this.layoutsCtx.font = '8px monospace';
-    this.layoutsCtx.fillStyle = 'red';
+    this.layoutsCtx.font = "8px monospace";
+    this.layoutsCtx.fillStyle = "red";
 
     const horizontalStartDirection =
-      this.writingDirection === WritingDirection.LTR ? 'left' : 'right';
+      this.writingDirection === WritingDirection.LTR ? "left" : "right";
     const horizontalStartCoordinate = layout[horizontalStartDirection];
 
     this.layoutsCtx.fillText(
       focusKey,
       horizontalStartCoordinate,
-      layout.top + 10
+      layout.top + 10,
     );
     this.layoutsCtx.fillText(
       parentFocusKey,
       horizontalStartCoordinate,
-      layout.top + 25
+      layout.top + 25,
     );
     this.layoutsCtx.fillText(
       `${horizontalStartDirection}: ${horizontalStartCoordinate}`,
       horizontalStartCoordinate,
-      layout.top + 40
+      layout.top + 40,
     );
     this.layoutsCtx.fillText(
       `top: ${layout.top}`,
       horizontalStartCoordinate,
-      layout.top + 55
+      layout.top + 55,
     );
   }
 
-  drawPoint(x: number, y: number, color = 'blue', size = 10) {
+  drawPoint(x: number, y: number, color = "blue", size = 10) {
     if (!hasDOM) {
       return;
     }

@@ -1,4 +1,4 @@
-import { SpatialNavigation, ROOT_FOCUS_KEY } from '../SpatialNavigation';
+import { ROOT_FOCUS_KEY, SpatialNavigation } from "../SpatialNavigation";
 
 export const createRootNode = () => {
   SpatialNavigation.addFocusable({
@@ -12,7 +12,7 @@ export const createRootNode = () => {
         offsetLeft: 0,
         offsetTop: 0,
         offsetWidth: 1920,
-        offsetHeight: 1280
+        offsetHeight: 1280,
       } as HTMLElement,
       offsetParent: {
         offsetLeft: 0,
@@ -21,8 +21,8 @@ export const createRootNode = () => {
         scrollTop: 0,
         offsetWidth: 1920,
         offsetHeight: 1280,
-        nodeType: Node.ELEMENT_NODE
-      } as HTMLElement
+        nodeType: Node.ELEMENT_NODE,
+      } as HTMLElement,
     } as unknown as HTMLElement,
     isFocusBoundary: true,
     parentFocusKey: undefined,
@@ -38,7 +38,7 @@ export const createRootNode = () => {
     onArrowPress: () => true,
     onArrowRelease: () => {},
     onUpdateFocus: () => {},
-    onUpdateHasFocusedChild: () => {}
+    onUpdateHasFocusedChild: () => {},
   });
 };
 
@@ -46,7 +46,7 @@ export const createHorizontalLayout = () => {
   createRootNode();
 
   SpatialNavigation.addFocusable({
-    focusKey: 'child-1',
+    focusKey: "child-1",
     node: {
       offsetLeft: 100,
       offsetTop: 100,
@@ -56,7 +56,7 @@ export const createHorizontalLayout = () => {
         offsetLeft: 0,
         offsetTop: 0,
         offsetWidth: 1920,
-        offsetHeight: 1280
+        offsetHeight: 1280,
       } as HTMLElement,
       offsetParent: {
         offsetLeft: 0,
@@ -65,8 +65,8 @@ export const createHorizontalLayout = () => {
         scrollTop: 0,
         offsetWidth: 1920,
         offsetHeight: 1280,
-        nodeType: Node.ELEMENT_NODE
-      } as HTMLElement
+        nodeType: Node.ELEMENT_NODE,
+      } as HTMLElement,
     } as unknown as HTMLElement,
     isFocusBoundary: false,
     parentFocusKey: ROOT_FOCUS_KEY,
@@ -82,11 +82,11 @@ export const createHorizontalLayout = () => {
     onArrowPress: () => true,
     onArrowRelease: () => {},
     onUpdateFocus: () => {},
-    onUpdateHasFocusedChild: () => {}
+    onUpdateHasFocusedChild: () => {},
   });
 
   SpatialNavigation.addFocusable({
-    focusKey: 'child-2',
+    focusKey: "child-2",
     node: {
       offsetLeft: 600,
       offsetTop: 100,
@@ -96,7 +96,7 @@ export const createHorizontalLayout = () => {
         offsetLeft: 0,
         offsetTop: 0,
         offsetWidth: 1920,
-        offsetHeight: 1280
+        offsetHeight: 1280,
       } as HTMLElement,
       offsetParent: {
         offsetLeft: 0,
@@ -105,8 +105,8 @@ export const createHorizontalLayout = () => {
         scrollTop: 0,
         offsetWidth: 1920,
         offsetHeight: 1280,
-        nodeType: Node.ELEMENT_NODE
-      } as HTMLElement
+        nodeType: Node.ELEMENT_NODE,
+      } as HTMLElement,
     } as unknown as HTMLElement,
     isFocusBoundary: false,
     parentFocusKey: ROOT_FOCUS_KEY,
@@ -122,11 +122,11 @@ export const createHorizontalLayout = () => {
     onArrowPress: () => true,
     onArrowRelease: () => {},
     onUpdateFocus: () => {},
-    onUpdateHasFocusedChild: () => {}
+    onUpdateHasFocusedChild: () => {},
   });
 
   SpatialNavigation.addFocusable({
-    focusKey: 'child-3',
+    focusKey: "child-3",
     node: {
       offsetLeft: 1100,
       offsetTop: 100,
@@ -136,7 +136,7 @@ export const createHorizontalLayout = () => {
         offsetLeft: 0,
         offsetTop: 0,
         offsetWidth: 1920,
-        offsetHeight: 1280
+        offsetHeight: 1280,
       } as HTMLElement,
       offsetParent: {
         offsetLeft: 0,
@@ -145,8 +145,8 @@ export const createHorizontalLayout = () => {
         scrollTop: 0,
         offsetWidth: 1920,
         offsetHeight: 1280,
-        nodeType: Node.ELEMENT_NODE
-      } as HTMLElement
+        nodeType: Node.ELEMENT_NODE,
+      } as HTMLElement,
     } as unknown as HTMLElement,
     isFocusBoundary: false,
     parentFocusKey: ROOT_FOCUS_KEY,
@@ -162,7 +162,7 @@ export const createHorizontalLayout = () => {
     onArrowPress: () => true,
     onArrowRelease: () => {},
     onUpdateFocus: () => {},
-    onUpdateHasFocusedChild: () => {}
+    onUpdateHasFocusedChild: () => {},
   });
 };
 
@@ -170,7 +170,7 @@ export const createVerticalLayout = () => {
   createRootNode();
 
   SpatialNavigation.addFocusable({
-    focusKey: 'child-1',
+    focusKey: "child-1",
     node: {
       offsetLeft: 100,
       offsetTop: 100,
@@ -180,7 +180,7 @@ export const createVerticalLayout = () => {
         offsetLeft: 0,
         offsetTop: 0,
         offsetWidth: 1920,
-        offsetHeight: 1280
+        offsetHeight: 1280,
       } as HTMLElement,
       offsetParent: {
         offsetLeft: 0,
@@ -189,8 +189,8 @@ export const createVerticalLayout = () => {
         offsetHeight: 1280,
         scrollLeft: 0,
         scrollTop: 0,
-        nodeType: Node.ELEMENT_NODE
-      } as HTMLElement
+        nodeType: Node.ELEMENT_NODE,
+      } as HTMLElement,
     } as unknown as HTMLElement,
     isFocusBoundary: false,
     parentFocusKey: ROOT_FOCUS_KEY,
@@ -206,11 +206,11 @@ export const createVerticalLayout = () => {
     onArrowPress: () => true,
     onArrowRelease: () => {},
     onUpdateFocus: () => {},
-    onUpdateHasFocusedChild: () => {}
+    onUpdateHasFocusedChild: () => {},
   });
 
   SpatialNavigation.addFocusable({
-    focusKey: 'child-2',
+    focusKey: "child-2",
     node: {
       offsetLeft: 100,
       offsetTop: 600,
@@ -220,7 +220,7 @@ export const createVerticalLayout = () => {
         offsetLeft: 0,
         offsetTop: 0,
         offsetWidth: 1920,
-        offsetHeight: 1280
+        offsetHeight: 1280,
       } as HTMLElement,
       offsetParent: {
         offsetLeft: 0,
@@ -229,8 +229,8 @@ export const createVerticalLayout = () => {
         scrollTop: 0,
         offsetWidth: 1920,
         offsetHeight: 1280,
-        nodeType: Node.ELEMENT_NODE
-      } as HTMLElement
+        nodeType: Node.ELEMENT_NODE,
+      } as HTMLElement,
     } as unknown as HTMLElement,
     isFocusBoundary: false,
     parentFocusKey: ROOT_FOCUS_KEY,
@@ -246,6 +246,6 @@ export const createVerticalLayout = () => {
     onArrowPress: () => true,
     onArrowRelease: () => {},
     onUpdateFocus: () => {},
-    onUpdateHasFocusedChild: () => {}
+    onUpdateHasFocusedChild: () => {},
   });
 };

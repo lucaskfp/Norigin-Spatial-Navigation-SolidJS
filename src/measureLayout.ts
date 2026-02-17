@@ -17,12 +17,12 @@ const getRect = (node: HTMLElement) => {
     height,
     left,
     top,
-    width
+    width,
   };
 };
 
 const measureLayout = (node: HTMLElement) => {
-  const relativeNode = node && node.parentElement;
+  const relativeNode = node?.parentElement;
 
   if (node && relativeNode) {
     const relativeRect = getRect(relativeNode);
@@ -42,7 +42,7 @@ const measureLayout = (node: HTMLElement) => {
       },
       get bottom() {
         return this.top + this.height;
-      }
+      },
     };
   }
 
@@ -54,14 +54,14 @@ const measureLayout = (node: HTMLElement) => {
     left: 0,
     top: 0,
     right: 0,
-    bottom: 0
+    bottom: 0,
   };
 };
 
 export default measureLayout;
 
 export const getBoundingClientRect = (node: HTMLElement) => {
-  if (node && node.getBoundingClientRect) {
+  if (node?.getBoundingClientRect) {
     const rect = node.getBoundingClientRect();
 
     return {
@@ -76,7 +76,7 @@ export const getBoundingClientRect = (node: HTMLElement) => {
       },
       get bottom() {
         return this.top + this.height;
-      }
+      },
     };
   }
 
@@ -88,6 +88,6 @@ export const getBoundingClientRect = (node: HTMLElement) => {
     left: 0,
     top: 0,
     right: 0,
-    bottom: 0
+    bottom: 0,
   };
 };

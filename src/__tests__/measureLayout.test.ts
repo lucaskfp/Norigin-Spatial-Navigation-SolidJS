@@ -1,4 +1,4 @@
-import measureLayout, { getBoundingClientRect } from '../measureLayout';
+import measureLayout, { getBoundingClientRect } from "../measureLayout";
 
 const node = {
   offsetLeft: 400,
@@ -18,8 +18,8 @@ const node = {
       offsetTop: 10,
       scrollLeft: 20,
       scrollTop: 0,
-      nodeType: Node.ELEMENT_NODE
-    }
+      nodeType: Node.ELEMENT_NODE,
+    },
   },
   offsetParent: {
     offsetLeft: 10,
@@ -34,8 +34,8 @@ const node = {
       offsetTop: 10,
       scrollLeft: 0,
       scrollTop: 0,
-      nodeType: Node.ELEMENT_NODE
-    }
+      nodeType: Node.ELEMENT_NODE,
+    },
   },
   getBoundingClientRect() {
     return {
@@ -44,13 +44,13 @@ const node = {
       top: 200,
       left: 420,
       width: 200,
-      height: 100
+      height: 100,
     };
-  }
+  },
 } as unknown as HTMLElement;
 
-describe('measureLayout utils', () => {
-  it('should return the correct layout relative to its parent', () => {
+describe("measureLayout utils", () => {
+  it("should return the correct layout relative to its parent", () => {
     const layout = measureLayout(node);
 
     expect(layout).toEqual({
@@ -61,11 +61,11 @@ describe('measureLayout utils', () => {
       bottom: 330,
       left: 420,
       width: 200,
-      height: 100
+      height: 100,
     });
   });
 
-  it('should return the correct layout relative to the viewport', () => {
+  it("should return the correct layout relative to the viewport", () => {
     const layout = getBoundingClientRect(node);
 
     expect(layout).toEqual({
@@ -76,7 +76,7 @@ describe('measureLayout utils', () => {
       bottom: 300,
       left: 420,
       width: 200,
-      height: 100
+      height: 100,
     });
   });
 });

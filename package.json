@@ -18,6 +18,9 @@
     "build": "tsup",
     "prepare": "npm run build",
     "publish": "npm publish --access public",
+    "format": "biome format --write .",
+    "lint": "biome lint .",
+    "check": "biome check --write .",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage"
   },
@@ -42,10 +45,9 @@
     "solid-js": "^1.0.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.4.2",
     "@vitest/coverage-v8": "^4.0.18",
     "jsdom": "^28.1.0",
-    "pre-commit": "^1.0.10",
-    "prettier": "^2.5.1",
     "solid-js": "^1.8.0",
     "tsup": "^8.0.0",
     "typescript": "^5.0.0",

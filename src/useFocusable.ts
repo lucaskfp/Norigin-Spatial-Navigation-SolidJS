@@ -1,19 +1,19 @@
-import { createSignal, onCleanup, createEffect } from 'solid-js';
-import { uniqueId } from './helpers';
+import { createEffect, createSignal, onCleanup } from "solid-js";
+import { uniqueId } from "./helpers";
 import {
+  type Direction,
+  type FocusableComponentLayout,
+  type FocusDetails,
+  type KeyPressDetails,
   SpatialNavigation,
-  FocusableComponentLayout,
-  FocusDetails,
-  KeyPressDetails,
-  Direction,
-} from './SpatialNavigation';
-import { useFocusContext } from './useFocusContext';
+} from "./SpatialNavigation";
+import { useFocusContext } from "./useFocusContext";
 
 const noop = (() => {}) as (...args: any[]) => any;
 
 export type EnterPressHandler<P = object> = (
   props: P,
-  details: KeyPressDetails
+  details: KeyPressDetails,
 ) => void;
 
 export type EnterReleaseHandler<P = object> = (props: P) => void;
@@ -21,24 +21,24 @@ export type EnterReleaseHandler<P = object> = (props: P) => void;
 export type ArrowPressHandler<P = object> = (
   direction: string,
   props: P,
-  details: KeyPressDetails
+  details: KeyPressDetails,
 ) => boolean;
 
 export type ArrowReleaseHandler<P = object> = (
   direction: string,
-  props: P
+  props: P,
 ) => void;
 
 export type FocusHandler<P = object> = (
   layout: FocusableComponentLayout,
   props: P,
-  details: FocusDetails
+  details: FocusDetails,
 ) => void;
 
 export type BlurHandler<P = object> = (
   layout: FocusableComponentLayout,
   props: P,
-  details: FocusDetails
+  details: FocusDetails,
 ) => void;
 
 export interface UseFocusableConfig<P = object> {
@@ -71,9 +71,10 @@ export interface UseFocusableResult<E = HTMLElement> {
   focusKey: string;
 }
 
-export function createFocusable<P = object, E extends HTMLElement = HTMLElement>(
-  config: UseFocusableConfig<P> = {}
-): UseFocusableResult<E> {
+export function createFocusable<
+  P = object,
+  E extends HTMLElement = HTMLElement,
+>(config: UseFocusableConfig<P> = {}): UseFocusableResult<E> {
   const {
     focusable = true,
     saveLastFocusedChild = true,
@@ -94,7 +95,7 @@ export function createFocusable<P = object, E extends HTMLElement = HTMLElement>
   } = config;
 
   const parentFocusKey = useFocusContext();
-  const generatedKey = uniqueId('sn:focusable-item-');
+  const generatedKey = uniqueId("sn:focusable-item-");
   const focusKey = propFocusKey ?? generatedKey;
 
   const [nodeSignal, setNode] = createSignal<E | undefined>(undefined);
@@ -114,13 +115,13 @@ export function createFocusable<P = object, E extends HTMLElement = HTMLElement>
   };
   const onFocusHandler = (
     layout: FocusableComponentLayout,
-    details: FocusDetails
+    details: FocusDetails,
   ) => {
     onFocus(layout, extraProps as P, details);
   };
   const onBlurHandler = (
     layout: FocusableComponentLayout,
-    details: FocusDetails
+    details: FocusDetails,
   ) => {
     onBlur(layout, extraProps as P, details);
   };
