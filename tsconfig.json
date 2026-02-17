@@ -1,16 +1,16 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "declarationDir": "dist",
     "noImplicitAny": true,
     "stripInternal": true,
-    "module": "commonjs",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "esModuleInterop": true,
-    "target": "ES5",
+    "target": "ES2020",
     "jsx": "preserve",
     "allowSyntheticDefaultImports": true,
-    "lib": ["es5", "es2015", "dom"],
+    "lib": ["ES2020", "DOM"],
     "skipLibCheck": true
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "src/__tests__"]
 }
