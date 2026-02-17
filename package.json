@@ -16,7 +16,7 @@
   ],
   "scripts": {
     "build": "tsup",
-    "prepare": "npm run build",
+    "prepare": "husky",
     "publish": "npm publish --access public",
     "format": "biome format --write .",
     "lint": "biome lint .",
@@ -44,10 +44,17 @@
   "peerDependencies": {
     "solid-js": "^1.0.0"
   },
+  "lint-staged": {
+    "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}": [
+      "biome check --write --no-errors-on-unmatched"
+    ]
+  },
   "devDependencies": {
     "@biomejs/biome": "2.4.2",
     "@vitest/coverage-v8": "^4.0.18",
+    "husky": "^9.1.7",
     "jsdom": "^28.1.0",
+    "lint-staged": "^16.2.7",
     "solid-js": "^1.8.0",
     "tsup": "^8.0.0",
     "typescript": "^5.0.0",
