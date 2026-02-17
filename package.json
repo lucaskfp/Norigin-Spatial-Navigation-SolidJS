@@ -18,8 +18,8 @@
     "build": "tsup",
     "prepare": "npm run build",
     "publish": "npm publish --access public",
-    "test": "jest",
-    "test:coverage": "jest --collect-coverage"
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
   },
   "repository": {
     "type": "git",
@@ -43,14 +43,12 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@types/jest": "^29.5.12",
-    "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0",
+    "jsdom": "^26.0.0",
     "pre-commit": "^1.2.2",
     "prettier": "^2.5.1",
     "solid-js": "^1.8.0",
-    "ts-jest": "^29.1.4",
     "tsup": "^8.0.0",
-    "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "vitest": "^3.0.0"
   }
 }
