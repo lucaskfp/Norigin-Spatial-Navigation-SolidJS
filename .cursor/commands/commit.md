@@ -1,0 +1,1 @@
+@.cursor/rules/git-conventional-commit-messages.mdc faça o commit
